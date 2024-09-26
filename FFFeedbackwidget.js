@@ -40,49 +40,13 @@ function createFeedbackWidget() {
         <div id="response-message"></div>
     `;
 
-    // Append feedbackBtn and feedbackWidget to shadowRoot
-    shadowRoot.appendChild(feedbackBtn);
-    shadowRoot.appendChild(feedbackWidget);
+    document.body.appendChild(feedbackWidget);
 
-    // Append the widget container to the body
-    document.body.appendChild(widgetContainer);
-
-    // Style the feedback widget
-    const style = document.createElement('style');
-    style.innerHTML = `
-       /* Body and global styles */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f6f8;
-    margin: 0;
-}
-
-/* Feedback button styles */
-#feedback-btn {
-    position: fixed;
-    right: -40px;
-    top: 50%;
-    transform: translateY(-50%) rotate(90deg); /* Rotate 90 degrees */
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Ensure the button stays on top */
-    width: 140px;
-    text-align: center;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-#feedback-btn:hover {
-    background-color: #0056b3;
-}
-
+// Style the feedback widget
+const style = document.createElement('style');
+style.innerHTML = `
 /* Feedback widget styles */
-.feedback-widget {
+#feedback-widget {
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -98,12 +62,13 @@ body {
     max-height: 80%; /* Ensure the widget doesn't get too tall */
 }
 
-.feedback-widget.show {
+/* Show feedback widget */
+#feedback-widget.show {
     right: 10px; /* Slide in when showing */
 }
 
 /* Close button for feedback widget */
-.feedback-widget .close-btn {
+#feedback-widget .close-btn {
     position: absolute;
     top: 10px;
     right: 20px; /* Move closer to the right edge */
@@ -115,17 +80,17 @@ body {
     transition: color 0.3s;
 }
 
-.feedback-widget .close-btn:hover {
+#feedback-widget .close-btn:hover {
     color: #007BFF;
 }
 
 /* Form heading and labels */
-h2 {
+#feedback-widget h2 {
     margin-top: 0;
     color: #333;
 }
 
-label {
+#feedback-widget label {
     display: block;
     margin-bottom: 8px;
     color: #555;
@@ -133,7 +98,9 @@ label {
 }
 
 /* Form inputs */
-input, select, textarea {
+#feedback-widget input, 
+#feedback-widget select, 
+#feedback-widget textarea {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
@@ -143,7 +110,7 @@ input, select, textarea {
 }
 
 /* Button styles */
-button {
+#feedback-widget button {
     background-color: #28a745;
     color: white;
     border: none;
@@ -154,35 +121,23 @@ button {
     width: 100%;
 }
 
-button:hover {
+#feedback-widget button:hover {
     background-color: #218838;
 }
 
-/* Select wrapper for custom dropdown styling */
-.select-wrapper {
-    position: relative;
-}
-
-select {
-    appearance: none;
-    background: url('data:image/svg+xml;base64,...') no-repeat right 10px center; /* Custom dropdown arrow */
-    background-color: white;
-    background-size: 10px;
-}
-
 /* Dynamic questions container */
-#dynamic-questions {
+#feedback-widget #dynamic-questions {
     display: none;
 }
 
 /* Rating buttons */
-#rating-buttons {
+#feedback-widget #rating-buttons {
     display: flex;
     gap: 5px;
     flex-wrap: wrap;
 }
 
-.rating-button {
+#feedback-widget .rating-button {
     background-color: #ccc;
     border: 1px solid #888;
     padding: 6px 10px;
@@ -194,40 +149,42 @@ select {
     text-align: center;
 }
 
-.rating-button:hover {
+#feedback-widget .rating-button:hover {
     background-color: #ddd;
 }
 
-.rating-button.active {
+#feedback-widget .rating-button.active {
     background-color: #007BFF;
     color: white;
 }
 
 /* Response message styles */
-#response-message {
+#feedback-widget #response-message {
     margin-top: 12px;
     font-size: 14px;
 }
 
 /* Radio button and checkbox styles */
-input[type="radio"], input[type="checkbox"] {
+#feedback-widget input[type="radio"], 
+#feedback-widget input[type="checkbox"] {
     margin-right: 8px; /* Space between button and text */
     vertical-align: middle; /* Aligns with the text */
 }
 
-input[type="radio"] + label, input[type="checkbox"] + label {
+#feedback-widget input[type="radio"] + label, 
+#feedback-widget input[type="checkbox"] + label {
     display: inline-block;
     vertical-align: middle;
 }
 
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
-    .feedback-widget {
+    #feedback-widget {
         width: 90%;
         right: -100%;
     }
 
-    .feedback-widget.show {
+    #feedback-widget.show {
         right: 5%;
     }
 
@@ -237,8 +194,8 @@ input[type="radio"] + label, input[type="checkbox"] + label {
         width: 120px;
     }
 }
-    `;
-    shadowRoot.appendChild(style);
+`;
+document.head.appendChild(style);
 
     // Show/Hide Feedback Form
     feedbackBtn.addEventListener('click', () => {
