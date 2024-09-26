@@ -1,69 +1,68 @@
-   // Initialize Supabase client
-    const SUPABASE_URL = 'https://dvsoyesscauzsirtjthh.supabase.co'; // Replace with your Supabase URL
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2c295ZXNzY2F1enNpcnRqdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzNTU4NDQsImV4cCI6MjAyOTkzMTg0NH0.3HoGdobfXm7-SJtRSVF7R9kraDNHBFsiEaJunMjwpHk'; // Replace with your Supabase Key
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// feedbackWidget.js
 
-    // Function to create the feedback widget inside the shadow DOM
-    function createFeedbackWidget() {
-        // Create a shadow host container
-        const feedbackHost = document.createElement('div');
-        feedbackHost.id = 'feedback-widget-host';
-        document.body.appendChild(feedbackHost);
+// Initialize Supabase client
+const SUPABASE_URL = 'https://dvsoyesscauzsirtjthh.supabase.co'; // Replace with your Supabase URL
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2c295ZXNzY2F1enNpcnRqdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzNTU4NDQsImV4cCI6MjAyOTkzMTg0NH0.3HoGdobfXm7-SJtRSVF7R9kraDNHBFsiEaJunMjwpHk'; // Replace with your Supabase Key
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Attach shadow root
-        const shadowRoot = feedbackHost.attachShadow({ mode: 'open' });
+// Function to create the feedback widget
+function createFeedbackWidget() {
+    // Create feedback button
+    const feedbackBtn = document.createElement('button');
+    feedbackBtn.textContent = 'Feedback';
+    feedbackBtn.id = 'feedback-btn';
+    document.body.appendChild(feedbackBtn);
 
-        // Create feedback button
-        const feedbackBtn = document.createElement('button');
-        feedbackBtn.textContent = 'Feedback';
-        feedbackBtn.id = 'feedback-btn';
-        shadowRoot.appendChild(feedbackBtn);
+    // Create feedback widget container
+    const feedbackWidget = document.createElement('div');
+    feedbackWidget.id = 'feedback-widget';
+    feedbackWidget.className = 'feedback-widget';
+    
+    feedbackWidget.innerHTML = `
+        <button class="close-btn" id="close-feedback">&times;</button>
+        <h2>Feedback Form</h2>
+        <form id="feedback-form">
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="bug">Bug or Error</option>
+                <option value="gamereq">Game Request</option>
+                <option value="feature">Feature Request</option>
+                <option value="userreport">User Report</option>
+                <option value="sitefeedback">Website Feedback</option>
+                <option value="other">Other</option>
+            </select>
+            <div id="dynamic-questions"></div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Your email">
+            <button type="submit">Submit Feedback</button>
+        </form>
+        <div id="response-message"></div>
+    `;
 
-        // Create feedback widget container
-        const feedbackWidget = document.createElement('div');
-        feedbackWidget.id = 'feedback-widget';
-        feedbackWidget.className = 'feedback-widget';
-        
-        feedbackWidget.innerHTML = `
-            <button class="close-btn" id="close-feedback">&times;</button>
-            <h2>Feedback Form</h2>
-            <form id="feedback-form">
-                <label for="category">Category:</label>
-                <select id="category" name="category" required>
-                    <option value="" disabled selected>Select a category</option>
-                    <option value="bug">Bug or Error</option>
-                    <option value="gamereq">Game Request</option>
-                    <option value="feature">Feature Request</option>
-                    <option value="userreport">User Report</option>
-                    <option value="sitefeedback">Website Feedback</option>
-                    <option value="other">Other</option>
-                </select>
-                <div id="dynamic-questions"></div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required placeholder="Your email">
-                <button type="submit">Submit Feedback</button>
-            </form>
-            <div id="response-message"></div>
-        `;
+    // Append feedbackBtn and feedbackWidget to shadowRoot
+    shadowRoot.appendChild(feedbackBtn);
+    shadowRoot.appendChild(feedbackWidget);
 
-        shadowRoot.appendChild(feedbackWidget);
+    // Append the widget container to the body
+    document.body.appendChild(widgetContainer);
 
-        // Style the feedback widget
-        const style = document.createElement('style');
-        style.innerHTML = `
-           /* Shadow DOM specific styles */
-
+    // Style the feedback widget
+    const style = document.createElement('style');
+    style.innerHTML = `
+       /* Body and global styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f6f8;
     margin: 0;
 }
 
+/* Feedback button styles */
 #feedback-btn {
     position: fixed;
     right: -40px;
     top: 50%;
-    transform: translateY(-50%) rotate(90deg);
+    transform: translateY(-50%) rotate(90deg); /* Rotate 90 degrees */
     background-color: #007BFF;
     color: white;
     border: none;
@@ -72,7 +71,7 @@ body {
     cursor: pointer;
     font-size: 14px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: 1000; /* Ensure the button stays on top */
     width: 140px;
     text-align: center;
     transition: background-color 0.3s, transform 0.3s;
@@ -82,6 +81,7 @@ body {
     background-color: #0056b3;
 }
 
+/* Feedback widget styles */
 .feedback-widget {
     background: white;
     padding: 20px;
@@ -91,21 +91,22 @@ body {
     max-width: 450px;
     position: fixed;
     top: 20%;
-    right: -500px;
+    right: -500px; /* Hidden by default */
     transition: right 0.4s ease;
-    z-index: 999;
-    overflow-y: auto;
-    max-height: 80%;
+    z-index: 999; /* Ensure it's above other content */
+    overflow-y: auto; /* Make the widget scrollable */
+    max-height: 80%; /* Ensure the widget doesn't get too tall */
 }
 
 .feedback-widget.show {
-    right: 10px;
+    right: 10px; /* Slide in when showing */
 }
 
+/* Close button for feedback widget */
 .feedback-widget .close-btn {
     position: absolute;
     top: 10px;
-    right: 20px;
+    right: 20px; /* Move closer to the right edge */
     background-color: transparent;
     border: none;
     font-size: 24px;
@@ -118,6 +119,7 @@ body {
     color: #007BFF;
 }
 
+/* Form heading and labels */
 h2 {
     margin-top: 0;
     color: #333;
@@ -130,6 +132,7 @@ label {
     font-weight: bold;
 }
 
+/* Form inputs */
 input, select, textarea {
     width: 100%;
     padding: 12px;
@@ -139,6 +142,7 @@ input, select, textarea {
     font-size: 14px;
 }
 
+/* Button styles */
 button {
     background-color: #28a745;
     color: white;
@@ -154,14 +158,24 @@ button:hover {
     background-color: #218838;
 }
 
+/* Select wrapper for custom dropdown styling */
 .select-wrapper {
     position: relative;
 }
 
+select {
+    appearance: none;
+    background: url('data:image/svg+xml;base64,...') no-repeat right 10px center; /* Custom dropdown arrow */
+    background-color: white;
+    background-size: 10px;
+}
+
+/* Dynamic questions container */
 #dynamic-questions {
     display: none;
 }
 
+/* Rating buttons */
 #rating-buttons {
     display: flex;
     gap: 5px;
@@ -189,14 +203,16 @@ button:hover {
     color: white;
 }
 
+/* Response message styles */
 #response-message {
     margin-top: 12px;
     font-size: 14px;
 }
 
+/* Radio button and checkbox styles */
 input[type="radio"], input[type="checkbox"] {
-    margin-right: 8px;
-    vertical-align: middle;
+    margin-right: 8px; /* Space between button and text */
+    vertical-align: middle; /* Aligns with the text */
 }
 
 input[type="radio"] + label, input[type="checkbox"] + label {
@@ -204,6 +220,7 @@ input[type="radio"] + label, input[type="checkbox"] + label {
     vertical-align: middle;
 }
 
+/* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .feedback-widget {
         width: 90%;
@@ -220,30 +237,30 @@ input[type="radio"] + label, input[type="checkbox"] + label {
         width: 120px;
     }
 }
-        `;
-        shadowRoot.appendChild(style);
+    `;
+    shadowRoot.appendChild(style);
 
-        // Show/Hide Feedback Form
-        feedbackBtn.addEventListener('click', () => {
-            feedbackWidget.classList.toggle('show');
-            feedbackBtn.style.display = 'none';
+    // Show/Hide Feedback Form
+    feedbackBtn.addEventListener('click', () => {
+        feedbackWidget.classList.toggle('show'); // Toggle the 'show' class to slide form in/out
+        feedbackBtn.style.display = 'none'; // Hide feedback button when clicked
+    });
+
+    const closeBtn = document.getElementById('close-feedback');
+    closeBtn.addEventListener('click', () => {
+        feedbackWidget.classList.remove('show'); // Hide widget
+        feedbackBtn.style.display = 'block'; // Show feedback button again
+    });
+
+    // Function to convert file to data URL
+    const fileToDataURL = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
         });
-
-        const closeBtn = feedbackWidget.querySelector('#close-feedback');
-        closeBtn.addEventListener('click', () => {
-            feedbackWidget.classList.remove('show');
-            feedbackBtn.style.display = 'block';
-        });
-
-        // Function to convert file to data URL
-        const fileToDataURL = (file) => {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        };
+    };
 
     // Handle form submission
     document.getElementById('feedback-form').addEventListener('submit', async (event) => {
