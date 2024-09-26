@@ -15,6 +15,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     // Inject CSS styles scoped to the feedback widget
     const style = document.createElement('style');
     style.innerHTML = `
+   
 /* Feedback button styles */
 #feedback-btn {
     position: fixed;
@@ -42,6 +43,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 /* Feedback widget styles */
 .feedback-widget {
     background: white;
+    font-family: Arial, sans-serif;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
