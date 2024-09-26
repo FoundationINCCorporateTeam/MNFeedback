@@ -5,18 +5,16 @@ const SUPABASE_URL = 'https://dvsoyesscauzsirtjthh.supabase.co'; // Replace with
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2c295ZXNzY2F1enNpcnRqdGhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQzNTU4NDQsImV4cCI6MjAyOTkzMTg0NH0.3HoGdobfXm7-SJtRSVF7R9kraDNHBFsiEaJunMjwpHk'; // Replace with your Supabase Key
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Function to create the feedback widget
-function createFeedbackWidget() {
+ function createFeedbackWidget() {
     // Create feedback button
     const feedbackBtn = document.createElement('button');
     feedbackBtn.textContent = 'Feedback';
     feedbackBtn.id = 'feedback-btn';
     document.body.appendChild(feedbackBtn);
 
-  // Inject CSS styles
+    // Inject CSS styles scoped to the feedback widget
     const style = document.createElement('style');
     style.innerHTML = `
-        /* Feedback widget styles */
         #feedback-widget {
             background: white;
             padding: 20px;
@@ -32,11 +30,9 @@ function createFeedbackWidget() {
             overflow-y: auto; /* Make the widget scrollable */
             max-height: 80%; /* Ensure the widget doesn't get too tall */
         }
-        /* Show feedback widget */
         #feedback-widget.show {
             right: 10px; /* Slide in when showing */
         }
-        /* Close button for feedback widget */
         #feedback-widget .close-btn {
             position: absolute;
             top: 10px;
@@ -51,7 +47,6 @@ function createFeedbackWidget() {
         #feedback-widget .close-btn:hover {
             color: #007BFF;
         }
-        /* Form heading and labels */
         #feedback-widget h2 {
             margin-top: 0;
             color: #333;
@@ -62,8 +57,7 @@ function createFeedbackWidget() {
             color: #555;
             font-weight: bold;
         }
-        /* Form inputs */
-        #feedback-widget input, 
+        #feedback-widget input,
         #feedback-widget select {
             width: 100%;
             padding: 12px;
@@ -72,7 +66,6 @@ function createFeedbackWidget() {
             border-radius: 5px;
             font-size: 14px;
         }
-        /* Button styles */
         #feedback-widget button {
             background-color: #28a745;
             color: white;
@@ -86,16 +79,13 @@ function createFeedbackWidget() {
         #feedback-widget button:hover {
             background-color: #218838;
         }
-        /* Dynamic questions container */
         #feedback-widget #dynamic-questions {
             display: none;
         }
-        /* Response message styles */
         #feedback-widget #response-message {
             margin-top: 12px;
             font-size: 14px;
         }
-        /* Responsive design for smaller screens */
         @media (max-width: 768px) {
             #feedback-widget {
                 width: 90%;
@@ -144,14 +134,14 @@ function createFeedbackWidget() {
 
     // Show/Hide Feedback Form
     feedbackBtn.addEventListener('click', () => {
-        feedbackWidget.classList.toggle('show'); // Toggle the 'show' class to slide form in/out
-        feedbackBtn.style.display = 'none'; // Hide feedback button when clicked
+        feedbackWidget.classList.toggle('show');
+        feedbackBtn.style.display = 'none';
     });
 
     const closeBtn = document.getElementById('close-feedback');
     closeBtn.addEventListener('click', () => {
-        feedbackWidget.classList.remove('show'); // Hide widget
-        feedbackBtn.style.display = 'block'; // Show feedback button again
+        feedbackWidget.classList.remove('show');
+        feedbackBtn.style.display = 'block';
     });
 
     // Function to convert file to data URL
