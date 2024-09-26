@@ -13,11 +13,111 @@ function createFeedbackWidget() {
     feedbackBtn.id = 'feedback-btn';
     document.body.appendChild(feedbackBtn);
 
+  // Inject CSS styles
+    const style = document.createElement('style');
+    style.innerHTML = `
+        /* Feedback widget styles */
+        #feedback-widget {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            position: fixed;
+            top: 20%;
+            right: -500px; /* Hidden by default */
+            transition: right 0.4s ease;
+            z-index: 999; /* Ensure it's above other content */
+            overflow-y: auto; /* Make the widget scrollable */
+            max-height: 80%; /* Ensure the widget doesn't get too tall */
+        }
+        /* Show feedback widget */
+        #feedback-widget.show {
+            right: 10px; /* Slide in when showing */
+        }
+        /* Close button for feedback widget */
+        #feedback-widget .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px; /* Move closer to the right edge */
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            transition: color 0.3s;
+        }
+        #feedback-widget .close-btn:hover {
+            color: #007BFF;
+        }
+        /* Form heading and labels */
+        #feedback-widget h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        #feedback-widget label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+        /* Form inputs */
+        #feedback-widget input, 
+        #feedback-widget select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        /* Button styles */
+        #feedback-widget button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        #feedback-widget button:hover {
+            background-color: #218838;
+        }
+        /* Dynamic questions container */
+        #feedback-widget #dynamic-questions {
+            display: none;
+        }
+        /* Response message styles */
+        #feedback-widget #response-message {
+            margin-top: 12px;
+            font-size: 14px;
+        }
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            #feedback-widget {
+                width: 90%;
+                right: -100%;
+            }
+            #feedback-widget.show {
+                right: 5%;
+            }
+            #feedback-btn {
+                padding: 8px;
+                font-size: 12px;
+                width: 120px;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
     // Create feedback widget container
     const feedbackWidget = document.createElement('div');
     feedbackWidget.id = 'feedback-widget';
     feedbackWidget.className = 'feedback-widget';
-    
+
     feedbackWidget.innerHTML = `
         <button class="close-btn" id="close-feedback">&times;</button>
         <h2>Feedback Form</h2>
@@ -41,161 +141,6 @@ function createFeedbackWidget() {
     `;
 
     document.body.appendChild(feedbackWidget);
-
-// Style the feedback widget
-const style = document.createElement('style');
-style.innerHTML = `
-/* Feedback widget styles */
-#feedback-widget {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 450px;
-    position: fixed;
-    top: 20%;
-    right: -500px; /* Hidden by default */
-    transition: right 0.4s ease;
-    z-index: 999; /* Ensure it's above other content */
-    overflow-y: auto; /* Make the widget scrollable */
-    max-height: 80%; /* Ensure the widget doesn't get too tall */
-}
-
-/* Show feedback widget */
-#feedback-widget.show {
-    right: 10px; /* Slide in when showing */
-}
-
-/* Close button for feedback widget */
-#feedback-widget .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px; /* Move closer to the right edge */
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-    transition: color 0.3s;
-}
-
-#feedback-widget .close-btn:hover {
-    color: #007BFF;
-}
-
-/* Form heading and labels */
-#feedback-widget h2 {
-    margin-top: 0;
-    color: #333;
-}
-
-#feedback-widget label {
-    display: block;
-    margin-bottom: 8px;
-    color: #555;
-    font-weight: bold;
-}
-
-/* Form inputs */
-#feedback-widget input, 
-#feedback-widget select, 
-#feedback-widget textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-/* Button styles */
-#feedback-widget button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-}
-
-#feedback-widget button:hover {
-    background-color: #218838;
-}
-
-/* Dynamic questions container */
-#feedback-widget #dynamic-questions {
-    display: none;
-}
-
-/* Rating buttons */
-#feedback-widget #rating-buttons {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-}
-
-#feedback-widget .rating-button {
-    background-color: #ccc;
-    border: 1px solid #888;
-    padding: 6px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    font-size: 14px;
-    width: 40px;
-    text-align: center;
-}
-
-#feedback-widget .rating-button:hover {
-    background-color: #ddd;
-}
-
-#feedback-widget .rating-button.active {
-    background-color: #007BFF;
-    color: white;
-}
-
-/* Response message styles */
-#feedback-widget #response-message {
-    margin-top: 12px;
-    font-size: 14px;
-}
-
-/* Radio button and checkbox styles */
-#feedback-widget input[type="radio"], 
-#feedback-widget input[type="checkbox"] {
-    margin-right: 8px; /* Space between button and text */
-    vertical-align: middle; /* Aligns with the text */
-}
-
-#feedback-widget input[type="radio"] + label, 
-#feedback-widget input[type="checkbox"] + label {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-    #feedback-widget {
-        width: 90%;
-        right: -100%;
-    }
-
-    #feedback-widget.show {
-        right: 5%;
-    }
-
-    #feedback-btn {
-        padding: 8px;
-        font-size: 12px;
-        width: 120px;
-    }
-}
-`;
-document.head.appendChild(style);
 
     // Show/Hide Feedback Form
     feedbackBtn.addEventListener('click', () => {
