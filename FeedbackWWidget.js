@@ -40,7 +40,6 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     background-color: #0056b3;
 }
 
-/* Feedback widget styles */
 .feedback-widget {
     background: white;
     font-family: Arial, sans-serif;
@@ -51,13 +50,14 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     width: 100%;
     max-width: 450px;
     position: fixed;
-    top: 10%;
+    top: 5%; /* Adjusted to move higher */
     right: -500px; /* Hidden by default */
     transition: right 0.4s ease;
     z-index: 999; /* Ensure it's above other content */
     overflow-y: auto; /* Make the widget scrollable */
     max-height: 80%; /* Ensure the widget doesn't get too tall */
 }
+
 
 .feedback-widget.show {
     right: 10px; /* Slide in when showing */
